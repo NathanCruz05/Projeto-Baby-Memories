@@ -6,24 +6,25 @@ export default function Momentos() {
     <View style={style.container}>
 
       <View style={style.view2}>
-        <Text>Nascimento</Text>
-        <br />
-        <Text>22 de outubro de 2017</Text>
+        <View>
+          <Text>Nascimento</Text>
+        </View>
+        <View>
+          <Text>22 de outubro de 2017</Text>
+        </View>
+      </View>
+
+      <View style={style.espaco}></View>
+
+      <View style={style.view2}>
+        <View><Text>Nascimento</Text></View>
+        <View><Text>22 de outubro de 2017</Text></View>
       </View>
 
       <View style={style.espaco}></View>
 
       <View style={style.view2}>
         <Text>Nascimento</Text>
-        <br />
-        <Text>22 de outubro de 2017</Text>
-      </View>
-
-      <View style={style.espaco}></View>
-
-      <View style={style.view2}>
-        <Text>Nascimento</Text>
-        <br />
         <Text>22 de outubro de 2017</Text>
       </View>
 
@@ -31,7 +32,6 @@ export default function Momentos() {
 
       <View style={style.view2}>
         <Text>Nascimento</Text>
-        <br />
         <Text>22 de outubro de 2017</Text>
       </View>
 
