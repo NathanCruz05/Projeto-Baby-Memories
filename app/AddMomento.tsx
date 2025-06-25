@@ -2,8 +2,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
+import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
+import { uploadImagem } from '../upload';
 
 const AdicionarMomento: React.FC = () => {
   const [data, setData] = useState<string>('');
@@ -11,6 +13,39 @@ const AdicionarMomento: React.FC = () => {
   const [descricao, setDescricao] = useState<string>('');
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const [imagemUri, setImagemUri] = useState<string>('');
+
+  const escolherImagem = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setImagemUri(result.assets[0].uri);
+    }
+  };
+
+  const salvarMomento = async () => {
+    if (!imagemUri) {
+      alert('Escolha uma imagem!');
+      return;
+    }
+
+    try {
+      const url = await uploadImagem(imagemUri);
+      console.log('Imagem enviada para:', url);
+
+      // Aqui você pode salvar os dados no Firestore, AsyncStorage, etc
+      console.log({ data, momento, descricao, url });
+      alert('Momento salvo com sucesso!');
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao salvar imagem');
+    }
+  };
 
   const handleDateChange = (event: any, date?: Date) => {
     setShowDatePicker(false);
@@ -22,7 +57,7 @@ const AdicionarMomento: React.FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      
+
       <View style={styles.header}>
         <Ionicons name="arrow-back" size={24} color="#fff" />
         <Text style={styles.headerTitle}>Adicionar momento</Text>
@@ -30,29 +65,29 @@ const AdicionarMomento: React.FC = () => {
 
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.formWrapper}>
-          
+
           <Text style={styles.label}>Data</Text>
-          
-            <TextInput
-              placeholder="Selecione uma data"
-              style={[styles.input, { color: data ? '#000' : '#aaa' }]}
-              value={data}
-              editable={false}
-              pointerEvents="none"
-            />
-            <MaterialIcons name="calendar-today" size={20} color="#aaa" />
-          
+
+          <TextInput
+            placeholder="Selecione uma data"
+            style={[styles.input, { color: data ? '#000' : '#aaa' }]}
+            value={data}
+            editable={false}
+            pointerEvents="none"
+          />
+          <MaterialIcons name="calendar-today" size={20} color="#aaa" />
+
 
           {showDatePicker && (
             <DateTimePicker
-             value={selectedDate}
+              value={selectedDate}
               mode="date"
               display={Platform.OS === 'ios' ? 'spinner' : 'default'}
               onChange={handleDateChange}
             />
           )}
 
-          
+
           <Text style={styles.label}>Momento</Text>
           <TextInput
             placeholder="Nomeie o acontecimento"
@@ -61,7 +96,7 @@ const AdicionarMomento: React.FC = () => {
             onChangeText={setMomento}
           />
 
-          
+
           <Text style={styles.label}>Descrição</Text>
           <TextInput
             placeholder="Adicione uma descrição"
@@ -72,21 +107,27 @@ const AdicionarMomento: React.FC = () => {
             onChangeText={setDescricao}
           />
 
-         
+
           <Text style={styles.label}>Upload de foto</Text>
-          <TouchableOpacity style={styles.upload}>
+          <TouchableOpacity style={styles.upload} onPress={escolherImagem}>
             <FontAwesome name="camera" size={20} color="red" />
             <Text style={styles.uploadText}>Escolha ou capture uma imagem</Text>
           </TouchableOpacity>
 
-         
-          <TouchableOpacity style={styles.button}>
+          {imagemUri !== '' && (
+            <Image source={{ uri: imagemUri }} style={{ width: 200, height: 200, marginBottom: 20 }} />
+          )}
+
+
+
+          <TouchableOpacity style={styles.button} onPress={salvarMomento}>
             <Text style={styles.buttonText}>Salvar momento</Text>
           </TouchableOpacity>
+
         </View>
       </ScrollView>
 
-      
+
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuItem}>
           <Ionicons name="add-circle-outline" size={20} color="#fff" />
@@ -104,6 +145,8 @@ const AdicionarMomento: React.FC = () => {
     </SafeAreaView>
   );
 };
+
+
 
 export default AdicionarMomento;
 
