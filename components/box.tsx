@@ -1,40 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 
 
-export default function Momentos() {
+export default function Momentos(props: any) {
   return (
     <View style={style.container}>
-
       <View style={style.view2}>
         <View>
-          <Text>Nascimento</Text>
+          <Text>{props.momento}</Text>
         </View>
         <View>
           <Text>22 de outubro de 2017</Text>
         </View>
       </View>
-
-      <View style={style.espaco}></View>
-
-      <View style={style.view2}>
-        <View><Text>Nascimento</Text></View>
-        <View><Text>22 de outubro de 2017</Text></View>
-      </View>
-
-      <View style={style.espaco}></View>
-
-      <View style={style.view2}>
-        <Text>Nascimento</Text>
-        <Text>22 de outubro de 2017</Text>
-      </View>
-
-       <View style={style.espaco}></View>
-
-      <View style={style.view2}>
-        <Text>Nascimento</Text>
-        <Text>22 de outubro de 2017</Text>
-      </View>
-
     </View>
   );
 }

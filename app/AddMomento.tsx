@@ -1,13 +1,19 @@
+import { salvarDados } from '@/dados';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
+import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
 import { uploadImagem } from '../upload';
 
 const AdicionarMomento: React.FC = () => {
+
+  const auth = getAuth();
+
+
   const [data, setData] = useState<string>('');
   const [momento, setMomento] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
@@ -35,11 +41,13 @@ const AdicionarMomento: React.FC = () => {
     }
 
     try {
+      const uid = auth.currentUser?.uid;
+
       const url = await uploadImagem(imagemUri);
       console.log('Imagem enviada para:', url);
 
       // Aqui você pode salvar os dados no Firestore, AsyncStorage, etc
-      console.log({ data, momento, descricao, url });
+      salvarDados("momentos", { data, momento, descricao, url, userID: uid });
       alert('Momento salvo com sucesso!');
     } catch (err) {
       console.error(err);

@@ -1,17 +1,50 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Momentos from '../components/box';
 import StyleBotao from '../components/StyleBotao';
 
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from 'react';
+import { db } from "../firebase";
+
+
 export default function Index() {
+
+	const [momentos, setMomentos] = useState([]);
+
+	const buscarMomentos = async () => {
+		try {
+			const querySnapshot = await getDocs(collection(db, "momentos"));
+			const lista: any = [];
+
+			querySnapshot.forEach((doc) => {
+				lista.push({
+					id: doc.id,
+					...doc.data(),
+				});
+			});
+
+			setMomentos(lista);
+		} catch (e) {
+			console.error("Erro ao buscar momentos:", e);
+		}
+	};
+
+	useEffect(() => {
+		buscarMomentos();
+	}, []);
+
+
 	return (
 		<View style={style.container}>
 			<View>
 				<StyleBotao />
 			</View>
-			<Momentos />
+			{momentos?.map((item: any) => (<View key={item.id}><Momentos momento={item.momento} /><Text>{item.momento}</Text></View>))}
 		</View>
 	);
 }
+
+
 const style = StyleSheet.create({
 	container: {
 		flex: 1,
