@@ -1,21 +1,19 @@
+import { Link } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import Momentos from '../components/box';
-import StyleBotao from '../components/StyleBotao';
 
-export default function Index() {
+export default function StyleBotao() {
 	return (
 		<View style={style.container}>
-			<View>
-				<StyleBotao />
+			<View style={style.view2}>
+				<Link href='/AddMomento'>Adicionar novo momento</Link>
 			</View>
-			<Momentos />
 		</View>
 	);
 }
 const style = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 	},
 	texto: {
