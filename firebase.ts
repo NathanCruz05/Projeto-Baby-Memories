@@ -16,7 +16,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const authFirebase = getAuth(app);
 const storage = getStorage(app);
-const db = getFirestore(app, "baby-memories");
+const db = getFirestore(app);
 
-export { authFirebase, db, storage };
+
+export { app, authFirebase, db, storage };
 

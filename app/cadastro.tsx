@@ -1,6 +1,6 @@
-import { authFirebase } from '@/firebase';
 import { useRouter } from 'expo-router';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
+import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from 'react';
 import {
 	Alert,
@@ -10,6 +10,7 @@ import {
 	TextInput,
 	View,
 } from 'react-native';
+import { app } from '../firebase';
 
 const style = StyleSheet.create({
 	input: {
@@ -24,29 +25,32 @@ const style = StyleSheet.create({
 	},
 });
 
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
 export default function Cadastro() {
+	const [nome, setNome] = useState('');
 	const [email, setEmail] = useState('');
 	const [senha, setSenha] = useState('');
 
 	const router = useRouter();
 
-	const cadastro = () => {
-		createUserWithEmailAndPassword(authFirebase, email, senha)
-			.then(() => {
-				Alert.alert(
-					'Cadastro realizado com sucesso!',
-					'Você já pode fazer login.',
-					[
-						{
-							text: 'OK',
-							onPress: () => router.push('/login'),
-						},
-					]
-				);
-			})
-			.catch((error) => {
-				console.error('Erro ao realizar cadastro:', error);
+	const cadastro = async () => {
+		try {
+			const cred = await createUserWithEmailAndPassword(auth, email, senha)
+			await updateProfile(cred.user, { displayName: nome });
+			await setDoc(doc(db, "usuarios", cred.user.uid), {
+				nomeCompleto: nome,
+				email,
+				criadoEm: serverTimestamp()
 			});
+			Alert.alert("Conta criada!", `Bem-vindo(a) ${nome}`);
+			// navega pra tela principal...
+		} catch (e) {
+			console.error(e);
+			Alert.alert("Erro", "Não foi possível criar a conta.");
+		}
 	};
 
 	return (
@@ -64,6 +68,13 @@ export default function Cadastro() {
 			</Text>
 
 			<View style={{ marginTop: 20, gap: 20 }}>
+				<TextInput
+					onChangeText={setNome}
+					value={nome}
+					placeholder='Nome completo'
+					keyboardType='default'
+					style={style.input}
+				/>
 				<TextInput
 					onChangeText={setEmail}
 					value={email}
