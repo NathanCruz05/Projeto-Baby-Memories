@@ -1,3 +1,4 @@
+import { Carregamento } from '@/components/Carregamento';
 import { authFirebase } from '@/firebase';
 import { useRouter } from 'expo-router';
 import {
@@ -14,31 +15,66 @@ import {
 	View,
 } from 'react-native';
 
-const estilo = StyleSheet.create({
-	Fundo: { backgroundColor: 'white', flex: 1 },
-	Form: {
-		height: 55,
+const estilos = StyleSheet.create({
+	fundo: {
+		flex: 1,
+		backgroundColor: 'white',
+		paddingHorizontal: 20,
+		justifyContent: 'center',
+	},
+	topo: {
+		alignItems: 'center',
+		marginBottom: 30,
+	},
+	titulo: {
+		fontSize: 36,
+		fontWeight: 'bold',
+	},
+	formContainer: {
+		gap: 20,
+		marginBottom: 20,
+	},
+	input: {
+		height: 50,
 		backgroundColor: '#fdcfca',
-		borderColor: 'black',
+		borderColor: '#000',
 		borderWidth: 0.5,
 		borderRadius: 8,
+		paddingHorizontal: 15,
 		fontSize: 16,
-		padding: 10,
-		width: '100%',
 	},
-	Buton: {
+	linkContainer: {
+		alignItems: 'center',
+		marginBottom: 30,
+	},
+	link: {
+		color: 'blue',
+		fontSize: 16,
+		textDecorationLine: 'underline',
+	},
+	botoesContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+	},
+	botao: {
 		backgroundColor: '#fdcfca',
-		height: 60,
-		width: 120,
+		height: 55,
+		width: 140,
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderRadius: 12,
 		borderWidth: 0.5,
-		borderRadius: 15,
+	},
+	botaoTexto: {
+		fontSize: 16,
+		fontWeight: '600',
 	},
 });
 
 export default function LoginScreen() {
 	const router = useRouter();
+
+	const [carregando, setCarregando] = useState(false);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -48,9 +84,14 @@ export default function LoginScreen() {
 	};
 
 	const fazerLogin = () => {
+		setCarregando(true);
+
 		signInWithEmailAndPassword(authFirebase, email, password)
 			.then(() => {
 				router.push('/momentos');
+			})
+			.finally(() => {
+				setCarregando(false);
 			})
 			.catch((error) => {
 				Alert.alert(
@@ -63,67 +104,57 @@ export default function LoginScreen() {
 
 	const recuperarSenha = () => {
 		if (!email) {
-			alert('Por favor, insira seu e-mail para recuperação de senha.');
+			Alert.alert('Por favor, insira seu e-mail para recuperação de senha.');
 			return;
 		}
 
 		sendPasswordResetEmail(authFirebase, email)
 			.then(() => {
-				alert('E-mail de recuperação enviado!');
+				Alert.alert('E-mail de recuperação enviado!');
 			})
 			.catch((error) => {
-				alert('Erro ao enviar e-mail de recuperação. Tente novamente.');
+				Alert.alert('Erro ao enviar e-mail de recuperação. Tente novamente.');
 			});
 	};
 
 	return (
-		<View style={estilo.Fundo}>
-			<View style={{ alignItems: 'center', padding: 50, margin: 50 }}>
-				<Text style={{ fontSize: 40 }}>Entrar</Text>
+		<View style={estilos.fundo}>
+			{carregando && <Carregamento />}
+
+			<View style={estilos.topo}>
+				<Text style={estilos.titulo}>Entrar</Text>
 			</View>
-			<View style={{ gap: 40, paddingHorizontal: 20 }}>
-				<View style={{ alignItems: 'center' }}>
-					<TextInput
-						style={estilo.Form}
-						placeholder='E-mail'
-						value={email}
-						onChangeText={setEmail}
-					/>
-				</View>
-				<View style={{ alignItems: 'center' }}>
-					<TextInput
-						style={estilo.Form}
-						placeholder='Senha'
-						secureTextEntry={true}
-						value={password}
-						onChangeText={setPassword}
-						onSubmitEditing={fazerLogin}
-					/>
-				</View>
+
+			<View style={estilos.formContainer}>
+				<TextInput
+					style={estilos.input}
+					placeholder='E-mail'
+					keyboardType='email-address'
+					autoCapitalize='none'
+					value={email}
+					onChangeText={setEmail}
+					textContentType='emailAddress'
+				/>
+				<TextInput
+					style={estilos.input}
+					placeholder='Senha'
+					secureTextEntry
+					value={password}
+					onChangeText={setPassword}
+				/>
 			</View>
-			<View style={{ alignItems: 'center', padding: 25 }}>
-				<Pressable onPress={recuperarSenha}>
-					<Text style={{ color: 'blue', fontSize: 17 }}>Recuperar senha</Text>
+
+			<Pressable style={estilos.linkContainer} onPress={recuperarSenha}>
+				<Text style={estilos.link}>Esqueci minha senha</Text>
+			</Pressable>
+
+			<View style={estilos.botoesContainer}>
+				<Pressable style={estilos.botao} onPress={fazerLogin}>
+					<Text style={estilos.botaoTexto}>Entrar</Text>
 				</Pressable>
-			</View>
-			<View
-				style={{
-					flexDirection: 'row',
-					justifyContent: 'center',
-					padding: 20,
-					gap: 20,
-				}}
-			>
-				<View>
-					<Pressable style={estilo.Buton} onPress={fazerLogin}>
-						<Text>Entrar</Text>
-					</Pressable>
-				</View>
-				<View>
-					<Pressable style={estilo.Buton} onPress={irParaCadastro}>
-						<Text>Criar conta</Text>
-					</Pressable>
-				</View>
+				<Pressable style={estilos.botao} onPress={irParaCadastro}>
+					<Text style={estilos.botaoTexto}>Criar conta</Text>
+				</Pressable>
 			</View>
 		</View>
 	);

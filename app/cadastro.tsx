@@ -1,6 +1,6 @@
+import { authFirebase } from '@/firebase';
 import { useRouter } from 'expo-router';
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
-import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import {
 	Alert,
@@ -10,27 +10,8 @@ import {
 	TextInput,
 	View,
 } from 'react-native';
-import { app } from '../firebase';
-
-const style = StyleSheet.create({
-	input: {
-		height: 55,
-		backgroundColor: '#fdcfca',
-		borderColor: 'black',
-		borderWidth: 0.5,
-		borderRadius: 8,
-		fontSize: 16,
-		padding: 10,
-		width: '100%',
-	},
-});
-
-const auth = getAuth(app);
-const db = getFirestore(app);
-
 
 export default function Cadastro() {
-	const [nome, setNome] = useState('');
 	const [email, setEmail] = useState('');
 	const [senha, setSenha] = useState('');
 
@@ -38,72 +19,62 @@ export default function Cadastro() {
 
 	const cadastro = async () => {
 		try {
-			const cred = await createUserWithEmailAndPassword(auth, email, senha)
-			await updateProfile(cred.user, { displayName: nome });
-			await setDoc(doc(db, "usuarios", cred.user.uid), {
-				nomeCompleto: nome,
-				email,
-				criadoEm: serverTimestamp()
-			});
-			Alert.alert("Conta criada!", `Bem-vindo(a) ${nome}`);
-			// navega pra tela principal...
+			await createUserWithEmailAndPassword(authFirebase, email, senha);
+			router.push('/login');
 		} catch (e) {
 			console.error(e);
-			Alert.alert("Erro", "Não foi possível criar a conta.");
+			Alert.alert('Erro', 'Não foi possível criar a conta.');
 		}
 	};
 
 	return (
-		<View
-			style={{
-				flex: 1,
-				backgroundColor: 'white',
-				paddingTop: 80,
-				paddingHorizontal: 20,
-			}}
-		>
-			<Text style={{ fontSize: 24 }}>Tela de Cadastro</Text>
-			<Text style={{ fontSize: 18, marginTop: 10 }}>
-				Esta é a tela de cadastro do aplicativo Baby Memories.
-			</Text>
-
-			<View style={{ marginTop: 20, gap: 20 }}>
+		<View style={estilos.container}>
+			<View style={{ marginTop: 45 }}>
+				<View style={{ paddingLeft: 40 }}>
+					<Text>E-mail</Text>
+				</View>
 				<TextInput
-					onChangeText={setNome}
-					value={nome}
-					placeholder='Nome completo'
-					keyboardType='default'
-					style={style.input}
-				/>
-				<TextInput
-					onChangeText={setEmail}
+					style={estilos.input}
 					value={email}
-					placeholder='E-mail'
-					keyboardType='email-address'
-					style={style.input}
+					onChangeText={setEmail}
 				/>
+				<View style={{ paddingLeft: 40 }}>
+					<Text>Senha</Text>
+				</View>
 				<TextInput
-					onChangeText={setSenha}
+					style={estilos.input}
 					value={senha}
-					placeholder='Senha'
-					secureTextEntry
-					style={style.input}
+					onChangeText={setSenha}
 				/>
-
-				<Pressable
-					onPress={cadastro}
-					style={{
-						backgroundColor: '#fe7272',
-						alignItems: 'center',
-						justifyContent: 'center',
-						width: '100%',
-						height: 55,
-						borderRadius: 30,
-					}}
-				>
-					<Text style={{ color: 'white', fontSize: 20 }}>Cadastrar</Text>
+			</View>
+			<View>
+				<Pressable style={estilos.botao} onPress={cadastro}>
+					<Text>Criar Conta</Text>
 				</Pressable>
 			</View>
 		</View>
 	);
 }
+
+const estilos = StyleSheet.create({
+	input: {
+		backgroundColor: '#d6dee2',
+		borderWidth: 0.2,
+		borderRadius: 20,
+		marginTop: 10,
+		marginHorizontal: 30,
+		marginBottom: 24,
+		height: 40,
+	},
+	container: {
+		backgroundColor: 'white',
+		flex: 1,
+	},
+	botao: {
+		backgroundColor: '#95aeff',
+		padding: 15,
+		borderRadius: 30,
+		marginInline: 30,
+		alignItems: 'center',
+	},
+});

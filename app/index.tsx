@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+
 const estilo = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -26,17 +27,16 @@ const estilo = StyleSheet.create({
 	},
 });
 
-export default function Tela_Inicial() {
+export default function TelaInicial() {
 	const router = useRouter();
 
-	const irParaLogin = () => {
+	const goToLogin = () => {
 		router.push('/login');
 	};
 
-	const irParaCadastro = () => {
+	const goCriarConta = () => {
 		router.push('/cadastro');
 	};
-
 	return (
 		<View style={estilo.container}>
 			<View>
@@ -56,12 +56,12 @@ export default function Tela_Inicial() {
 				</Text>
 			</View>
 			<View>
-				<Pressable style={estilo.Login} onPress={irParaLogin}>
+				<Pressable style={estilo.Login} onPress={goToLogin}>
 					<Text style={{ color: 'white', fontSize: 20 }}>Login</Text>
 				</Pressable>
 			</View>
 			<View>
-				<Pressable style={estilo.criarConta} onPress={irParaCadastro}>
+				<Pressable style={estilo.criarConta} onPress={goCriarConta}>
 					<Text style={{ color: 'white', fontSize: 20 }}>
 						Criar uma nova conta
 					</Text>

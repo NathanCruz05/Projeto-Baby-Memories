@@ -1,21 +1,16 @@
-import { Link } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
-export default function StyleBotao() {
+export default function StyleBotao(props: {
+	titulo: string;
+	onPress?: () => void;
+}) {
 	return (
-		<View style={style.container}>
-			<View style={style.view2}>
-				<Link href='/AddMomento'>Adicionar novo momento</Link>
-			</View>
-		</View>
+		<Pressable style={style.view2} onPress={props.onPress}>
+			<Text>{props.titulo}</Text>
+		</Pressable>
 	);
 }
 const style = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-	},
 	texto: {
 		fontSize: 40,
 		fontWeight: 'bold',
@@ -26,8 +21,7 @@ const style = StyleSheet.create({
 		textAlign: 'center',
 		borderStyle: 'solid',
 		borderRadius: 50,
-		padding: 13,
-		width: 185,
-		height: 50,
+		paddingVertical: 16,
+		paddingHorizontal: 24,
 	},
 });

@@ -1,44 +1,55 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
-import { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
+import { collection, getDocs } from 'firebase/firestore';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import StyleBotao from '../components/StyleBotao';
-import { authFirebase, db, } from "../firebase";
+import { authFirebase, db } from '../firebase';
 
 interface Momento {
 	id: string;
-	data: string;        // "29/06/2025"
-	momento: string;     // "Primeiro sorriso"
-	descricao: string;   // texto livre
-	url: string;         // downloadURL da foto
-	userID: string;      // uid do Firebase Auth
-	createdAt: number;   // Date.now() salvo na gravação
+	data: string; // "29/06/2025"
+	momento: string; // "Primeiro sorriso"
+	descricao: string; // texto livre
+	url: string; // downloadURL da foto
+	userID: string; // uid do Firebase Auth
+	createdAt: number; // Date.now() salvo na gravação
 }
 
 export default function MomentosScreen() {
-	const [momentos, setMomentos] = useState<Momento[]>([]);
+	const uid = authFirebase.currentUser?.uid;
 
+	const router = useRouter();
+
+	const [momentos, setMomentos] = useState([]);
+
+	const sair = () => {
+		authFirebase.signOut();
+		router.push('/login');
+	};
+
+	const buscarMomentos = useCallback(async () => {
+		try {
+			const querySnapshot = await getDocs(collection(db, 'momentos'));
+			const lista: any = [];
+
+			querySnapshot.forEach((doc) => {
+				if (doc.data().userID === uid) {
+					lista.push({
+						id: doc.id,
+						...doc.data(),
+					});
+				}
+			});
+
+			setMomentos(lista);
+		} catch (e) {
+			console.error('Erro ao buscar momentos:', e);
+		}
+	}, [uid]);
 
 	useEffect(() => {
-		const uid = authFirebase.currentUser?.uid;
-		if (!uid) return; // sem usuário logado, não faz nada
-
-		const q = query(
-			collection(db, 'momentos'),
-			where('userID', '==', uid),
-			orderBy('createdAt', 'desc')
-		);
-
-		const unsubscribe = onSnapshot(q, (snap) => {
-			const lista = snap.docs.map((d) => ({
-				id: d.id,
-				...(d.data() as Omit<Momento, 'id'>),
-			}));
-			setMomentos(lista);
-		});
-
-		return unsubscribe; // limpa o listener ao desmontar
-	}, []);
+		buscarMomentos();
+	}, [buscarMomentos]);
 
 	const renderItem = ({ item }: { item: Momento }) => (
 		<View style={styles.card}>
@@ -56,11 +67,17 @@ export default function MomentosScreen() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Ionicons name="arrow-back" size={24} color="#fff" />
 				<Text style={styles.headerTitle}>Momentos</Text>
 			</View>
 
-			<StyleBotao />
+			<View style={styles.botoes}>
+				<StyleBotao
+					titulo='Adicionar Momento'
+					onPress={() => {
+						router.push('/AddMomento');
+					}}
+				/>
+			</View>
 
 			<FlatList
 				data={momentos}
@@ -71,6 +88,10 @@ export default function MomentosScreen() {
 					<Text style={styles.empty}>Nenhum momento cadastrado ainda 🙃</Text>
 				}
 			/>
+
+			<View style={styles.botoes}>
+				<StyleBotao titulo='Sair' onPress={sair} />
+			</View>
 		</View>
 	);
 }
@@ -82,7 +103,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: 15,
 		height: 60,
+		marginBottom: 24,
 	},
+	botoes: { alignItems: 'center', padding: 20 },
 	headerTitle: {
 		color: '#fff',
 		fontSize: 18,
