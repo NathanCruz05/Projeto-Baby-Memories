@@ -76,15 +76,14 @@ const AdicionarMomento: React.FC = () => {
 
           <Text style={styles.label}>Data</Text>
 
-          <TextInput
-            placeholder="Selecione uma data"
-            style={[styles.input, { color: data ? '#000' : '#aaa' }]}
-            value={data}
-            editable={false}
-            pointerEvents="none"
-          />
-          <MaterialIcons name="calendar-today" size={20} color="#aaa" />
-
+          <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+            <View style={styles.inputIconContainer}>
+              <Text style={{ color: data ? '#000' : '#aaa' }}>
+                {data || 'Selecione uma data'}
+              </Text>
+              <MaterialIcons name="calendar-today" size={20} color="#aaa" />
+            </View>
+          </TouchableOpacity>
 
           {showDatePicker && (
             <DateTimePicker
