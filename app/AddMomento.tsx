@@ -1,3 +1,4 @@
+import CameraComponent from '@/components/CameraComponent';
 import { Carregamento } from '@/components/Carregamento';
 import { salvarDados } from '@/dados';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -7,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
 	Alert,
 	Image,
@@ -24,6 +25,10 @@ import {
 import { uploadImagem } from '../upload';
 
 const AdicionarMomento: React.FC = () => {
+	const cameraRef:any = useRef(null);
+	const [hasPermission, setHasPermission] = useState<boolean>();
+	const [photo, setPhoto] = useState(null);
+
 	const auth = getAuth();
 
 	const router = useRouter();
@@ -89,6 +94,8 @@ const AdicionarMomento: React.FC = () => {
 				</Pressable>
 				<Text style={styles.headerTitle}>Adicionar momento</Text>
 			</View>
+
+			<CameraComponent />
 
 			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.formWrapper}>
