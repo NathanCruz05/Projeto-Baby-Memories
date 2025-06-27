@@ -1,4 +1,5 @@
 import { authFirebase } from '@/firebase';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
@@ -29,6 +30,13 @@ export default function Cadastro() {
 
 	return (
 		<View style={estilos.container}>
+			<View style={estilos.header}>
+				<Pressable onPress={() => router.back()}>
+					<Ionicons name='arrow-back' size={24} color='#fff' />
+				</Pressable>
+							<Text style={estilos.headerTitle}>Cadastro</Text>
+						</View>
+			
 			<View style={{ marginTop: 45 }}>
 				<View style={{ paddingLeft: 40 }}>
 					<Text>E-mail</Text>
@@ -57,6 +65,19 @@ export default function Cadastro() {
 }
 
 const estilos = StyleSheet.create({
+	header: {
+		backgroundColor: '#757072',
+		flexDirection: 'row',
+		alignItems: 'center',
+		padding: 15,
+		height: 60,
+		marginBottom: 24,
+	},
+	headerTitle: {
+		color: '#fff',
+		fontSize: 18,
+		marginLeft: 10,
+	},
 	input: {
 		backgroundColor: '#d6dee2',
 		borderWidth: 0.2,

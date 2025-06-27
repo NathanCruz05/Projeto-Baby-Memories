@@ -67,7 +67,7 @@ export default function MomentosScreen() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Momentos</Text>
+				<Text style={styles.headerTitle}>Página Inicial</Text>
 			</View>
 
 			<View style={styles.botoes}>
