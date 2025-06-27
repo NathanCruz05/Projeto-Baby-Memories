@@ -202,7 +202,7 @@ const estilos = StyleSheet.create({
         marginTop: 10, // Espaçamento acima do botão
     },
     botaoText: {
-        color: '#fff', // Cor do texto do botão para contraste
+        color: 'black',
         fontWeight: 'bold',
     },
     logoutButton: {

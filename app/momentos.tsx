@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 		height: 60,
 		marginBottom: 24,
 	},
-	botoes: { alignItems: 'center', padding: 20 },
+	botoes: { color: 'black', alignItems: 'center', padding: 20, fontWeight: 'bold' },
 	headerTitle: {
 		color: '#fff',
 		fontSize: 18,
