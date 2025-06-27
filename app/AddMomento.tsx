@@ -1,4 +1,3 @@
-import CameraComponent from '@/components/CameraComponent';
 import { Carregamento } from '@/components/Carregamento';
 import { salvarDados } from '@/dados';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -8,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
 	Alert,
 	Image,
@@ -25,10 +24,6 @@ import {
 import { uploadImagem } from '../upload';
 
 const AdicionarMomento: React.FC = () => {
-	const cameraRef:any = useRef(null);
-	const [hasPermission, setHasPermission] = useState<boolean>();
-	const [photo, setPhoto] = useState(null);
-
 	const auth = getAuth();
 
 	const router = useRouter();
@@ -46,6 +41,23 @@ const AdicionarMomento: React.FC = () => {
 	const escolherImagem = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			quality: 0.7,
+		});
+
+		if (!result.canceled) {
+			setImagemUri(result.assets[0].uri);
+		}
+	};
+
+	const tirarFoto = async () => {
+		const { status } = await ImagePicker.requestCameraPermissionsAsync();
+		if (status !== 'granted') {
+			Alert.alert('Permissão negada');
+			return;
+		}
+
+		const result = await ImagePicker.launchCameraAsync({
 			allowsEditing: true,
 			quality: 0.7,
 		});
@@ -95,8 +107,6 @@ const AdicionarMomento: React.FC = () => {
 				<Text style={styles.headerTitle}>Adicionar momento</Text>
 			</View>
 
-			<CameraComponent />
-
 			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.formWrapper}>
 					<Text style={styles.label}>Data</Text>
@@ -138,10 +148,24 @@ const AdicionarMomento: React.FC = () => {
 					/>
 
 					<Text style={styles.label}>Upload de foto</Text>
-					<TouchableOpacity style={styles.upload} onPress={escolherImagem}>
-						<FontAwesome name='camera' size={20} color='red' />
-						<Text style={styles.uploadText}>Escolha ou capture uma imagem</Text>
-					</TouchableOpacity>
+					<View
+						style={{
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: 40,
+							marginBottom: 40,
+						}}
+					>
+						<TouchableOpacity style={styles.upload} onPress={escolherImagem}>
+							<FontAwesome name='picture-o' size={20} />
+							<Text style={styles.uploadText}>Galeria</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity style={styles.upload} onPress={tirarFoto}>
+							<FontAwesome name='camera' size={20} />
+							<Text style={styles.uploadText}>Tirar Foto</Text>
+						</TouchableOpacity>
+					</View>
 
 					{imagemUri !== '' && (
 						<Image
@@ -236,8 +260,13 @@ const styles = StyleSheet.create({
 	upload: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginBottom: 30,
+		paddingVertical: 16,
+		paddingHorizontal: 24,
+		borderRadius: 8,
+		backgroundColor: '#C7C6F4',
+		gap: 4,
 	},
+
 	uploadText: {
 		marginLeft: 8,
 		color: '#333',
