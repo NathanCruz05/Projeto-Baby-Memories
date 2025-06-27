@@ -1,5 +1,6 @@
 import { Carregamento } from '@/components/Carregamento';
 import { authFirebase } from '@/firebase';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import {
 	sendPasswordResetEmail,
@@ -16,11 +17,24 @@ import {
 } from 'react-native';
 
 const estilos = StyleSheet.create({
+	header: {
+		backgroundColor: '#757072',
+		flexDirection: 'row',
+		alignItems: 'center',
+		padding: 15,
+		height: 60,
+		marginBottom: 24,
+	},
+	headerTitle: {
+		color: '#fff',
+		fontSize: 18,
+		marginLeft: 10,
+	},
 	fundo: {
 		flex: 1,
 		backgroundColor: 'white',
 		paddingHorizontal: 20,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 	},
 	topo: {
 		alignItems: 'center',
@@ -121,10 +135,13 @@ export default function LoginScreen() {
 		<View style={estilos.fundo}>
 			{carregando && <Carregamento />}
 
-			<View style={estilos.topo}>
-				<Text style={estilos.titulo}>Entrar</Text>
-			</View>
-
+			<View style={estilos.header}>
+				<Pressable onPress={() => router.back()}>
+					<Ionicons name='arrow-back' size={24} color='#fff' />
+				</Pressable>
+							<Text style={estilos.headerTitle}>Entrar</Text>
+						</View>
+			
 			<View style={estilos.formContainer}>
 				<TextInput
 					style={estilos.input}

@@ -189,10 +189,10 @@ const AdicionarMomento: React.FC = () => {
 					<Ionicons name='images-outline' size={20} color='#fff' />
 					<Text style={styles.menuText}>Álbum digital</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.menuItem}>
-					<Ionicons name='settings-outline' size={20} color='#fff' />
-					<Text style={styles.menuText}>Configurações</Text>
-				</TouchableOpacity>
+				<TouchableOpacity style={styles.menuItem} onPress={() => router.push('/ConfiguracoesConta')}>
+                    <Ionicons name='settings-outline' size={20} color='#fff' />
+                    <Text style={styles.menuText}>Configurações</Text>
+                </TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
