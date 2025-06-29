@@ -99,7 +99,7 @@ export default function ConfiguracoesConta() {
         try {
             await signOut(auth);
             Alert.alert('Sucesso', 'Você saiu da conta.');
-            router.replace('/login'); // Redireciona para a tela de login (replace para não voltar)
+            router.replace('/login'); 
         } catch (error) {
             console.error("Erro ao sair:", error);
             Alert.alert('Erro', 'Não foi possível sair da conta.');
@@ -121,7 +121,6 @@ export default function ConfiguracoesConta() {
                 {/* Exibir nome atual */}
                 <Text style={estilos.currentInfoText}>Nome Atual: {currentName}</Text>
 
-                {/* Alterar Nome */}
                 <View style={estilos.section}>
                     <Text style={estilos.sectionTitle}>Alterar Nome</Text>
                     <TextInput
@@ -186,7 +185,7 @@ const estilos = StyleSheet.create({
         borderWidth: 0.2,
         borderRadius: 20,
         marginTop: 10,
-        marginBottom: 15, // Ajustado para espaçamento entre inputs
+        marginBottom: 15, 
         height: 40,
         paddingHorizontal: 15,
     },
@@ -207,10 +206,10 @@ const estilos = StyleSheet.create({
         color: 'black',
     },
     logoutButton: {
-        backgroundColor: '#dc3545', // Cor vermelha para o botão de sair
+        backgroundColor: '#dc3545', 
     },
     section: {
-        marginBottom: 30, // Espaçamento entre as seções
+        marginBottom: 30, 
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
         paddingBottom: 20,

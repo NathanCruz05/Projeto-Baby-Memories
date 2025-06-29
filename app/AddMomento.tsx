@@ -9,17 +9,17 @@ import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
 import {
-	Alert,
-	Image,
-	Platform,
-	Pressable,
-	SafeAreaView,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
+    Alert,
+    Image,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { uploadImagem } from '../upload';
 
@@ -181,11 +181,7 @@ const AdicionarMomento: React.FC = () => {
             </ScrollView>
 
             <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Ionicons name='add-circle-outline' size={20} color='#fff' />
-                    <Text style={styles.menuText}>Adicionar momento</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/momentos')}>
                     <Ionicons name='images-outline' size={20} color='#fff' />
                     <Text style={styles.menuText}>Álbum digital</Text>
                 </TouchableOpacity>

@@ -24,54 +24,49 @@ const estilos = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         height: 60,
-        width: '100%', // Garante que o header ocupe a largura total
+        width: '100%', 
     },
     headerTitle: {
         color: '#fff',
         fontSize: 18,
         marginLeft: 10,
     },
-    container: { // Container principal, similar ao da página de Cadastro
+    container: { 
         backgroundColor: 'white',
         flex: 1,
     },
-    // Estilos para a seção "Bem-vindo!"
     topo: {
-        alignItems: 'flex-start', // Alinha o texto à esquerda
-        marginLeft: 30, // Alinha com o início dos inputs
+        alignItems: 'flex-start', 
+        marginLeft: 30, 
         marginBottom: 30,
     },
     titulo: {
-        fontSize: 30, // Ajustado para ser um pouco menor
-        color: '#333', // Cor mais neutra
+        fontSize: 30, 
+        color: '#333', 
     },
-    // Estilos dos Inputs, copiados da página de Cadastro
     input: {
         backgroundColor: '#d6dee2',
         borderWidth: 0.2,
         borderRadius: 20,
         marginTop: 10,
-        marginHorizontal: 30, // Margem horizontal para alinhar com o layout
+        marginHorizontal: 30, 
         marginBottom: 24,
         height: 40,
         paddingHorizontal: 15,
     },
-    // Estilos para o link "Esqueci minha senha"
     linkContainer: {
-        alignItems: 'flex-end', // Alinha o link à direita
-        marginRight: 30, // Margem para alinhar com o fim dos inputs
+        alignItems: 'center',
+        marginRight: 30, 
         marginBottom: 30,
     },
     link: {
-        color: '#95aeff', // Cor similar ao botão de cadastro
+        color: '#95aeff', 
         fontSize: 14,
         textDecorationLine: 'underline',
     },
-    // Estilos para os botões
     botoesContainer: {
         alignItems: 'center',
     },
-    // Estilo do botão, copiado da página de Cadastro
     botao: {
         backgroundColor: '#95aeff',
         padding: 15,
@@ -83,8 +78,8 @@ const estilos = StyleSheet.create({
     botaoTexto: {
         color: 'black',
     },
-    label: { // Novo estilo para as labels dos inputs
-        paddingLeft: 30, // Alinha com o início dos inputs
+    label: { 
+        paddingLeft: 30, 
         marginBottom: 5,
         fontSize: 14,
     }
@@ -154,14 +149,11 @@ export default function LoginScreen() {
                 <Text style={estilos.headerTitle}>Entrar</Text>
             </View>
 
-            {/* Conteúdo principal com margem superior para espaçamento */}
             <View style={{ marginTop: 45 }}>
-                {/* Seção "Bem-vindo!" */}
                 <View style={estilos.topo}>
                     <Text style={estilos.titulo}>Bem-vindo!</Text>
                 </View>
 
-                {/* Campo E-mail */}
                 <Text style={estilos.label}>E-mail</Text>
                 <TextInput
                     style={estilos.input}
@@ -173,7 +165,6 @@ export default function LoginScreen() {
                     textContentType='emailAddress'
                 />
 
-                {/* Campo Senha */}
                 <Text style={estilos.label}>Senha</Text>
                 <TextInput
                     style={estilos.input}
@@ -183,13 +174,11 @@ export default function LoginScreen() {
                     onChangeText={setPassword}
                 />
 
-                {/* Link "Esqueci minha senha" */}
                 <Pressable style={estilos.linkContainer} onPress={recuperarSenha}>
                     <Text style={estilos.link}>Esqueci minha senha</Text>
                 </Pressable>
             </View>
 
-            {/* Contêiner dos botões de Login e Criar Conta */}
             <View style={estilos.botoesContainer}>
                 <Pressable style={estilos.botao} onPress={fazerLogin}>
                     <Text style={estilos.botaoTexto}>Entrar</Text>

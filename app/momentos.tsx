@@ -3,28 +3,28 @@ import { useRouter } from 'expo-router';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 import {
-	ActivityIndicator,
-	Alert,
-	FlatList,
-	Image,
-	Modal,
-	Pressable,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
+    ActivityIndicator,
+    Alert,
+    FlatList,
+    Image,
+    Modal,
+    Pressable,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import StyleBotao from '../components/StyleBotao';
 import { authFirebase, db } from '../firebase';
 
 interface Momento {
     id: string;
-    data: string; 
-    momento: string; 
-    descricao: string; 
-    url: string; 
-    userID: string; 
-    createdAt: number; 
+    data: string;
+    momento: string;
+    descricao: string;
+    url: string;
+    userID: string;
+    createdAt: number;
 }
 
 export default function Momentos() {
@@ -34,8 +34,8 @@ export default function Momentos() {
 
     const [momentos, setMomentos] = useState<Momento[]>([]);
     const [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false); 
-    const [currentMomentIndex, setCurrentMomentIndex] = useState(0); 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentMomentIndex, setCurrentMomentIndex] = useState(0);
 
     const sair = async () => {
         try {
@@ -67,7 +67,6 @@ export default function Momentos() {
                 }
             });
 
-            // Ordenar momentos por data de criação (mais recentes primeiro)
             lista.sort((a, b) => b.createdAt - a.createdAt);
 
             setMomentos(lista);
@@ -95,8 +94,8 @@ export default function Momentos() {
                         try {
                             await deleteDoc(doc(db, 'momentos', id));
                             Alert.alert('Sucesso', 'Momento apagado com sucesso!');
-                            buscarMomentos(); 
-                            setModalVisible(false); 
+                            buscarMomentos();
+                            setModalVisible(false);
                         } catch (error: any) {
                             console.error('Erro ao apagar momento:', error);
                             Alert.alert('Erro', 'Não foi possível apagar o momento.');
@@ -184,6 +183,21 @@ export default function Momentos() {
 
             <View style={styles.botoes}>
                 <StyleBotao titulo='Sair' onPress={sair} />
+            </View>
+
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity style={styles.menuItem} onPress={()=> router.push('/AddMomento')}>
+                    <Ionicons name='add-circle-outline' size={20} color='#fff' />
+                    <Text style={styles.menuText}>Adicionar momento</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuItem}>
+                    <Ionicons name='images-outline' size={20} color='#fff' />
+                    <Text style={styles.menuText}>Álbum digital</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/ConfiguracoesConta')}>
+                    <Ionicons name='settings-outline' size={20} color='#fff' />
+                    <Text style={styles.menuText}>Configurações</Text>
+                </TouchableOpacity>
             </View>
 
             <Modal
@@ -274,12 +288,12 @@ const styles = StyleSheet.create({
 
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Fundo escuro transparente
+        backgroundColor: 'rgba(200, 191, 191, 0.88)', 
         justifyContent: 'center',
         alignItems: 'center',
     },
     modalContent: {
-        backgroundColor: '#757072', // Cor de fundo do modal
+        backgroundColor: '#848785', 
         borderRadius: 15,
         padding: 20,
         width: '90%',
@@ -339,5 +353,19 @@ const styles = StyleSheet.create({
         color: '#fff',
         marginLeft: 10,
         fontWeight: 'bold',
+    },
+    bottomMenu: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#757072',
+        paddingVertical: 10,
+    },
+    menuItem: {
+        alignItems: 'center',
+    },
+    menuText: {
+        color: '#fff',
+        fontSize: 12,
+        marginTop: 2,
     },
 });
