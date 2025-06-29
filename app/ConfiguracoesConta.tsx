@@ -199,11 +199,12 @@ const estilos = StyleSheet.create({
         padding: 15,
         borderRadius: 30,
         alignItems: 'center',
-        marginTop: 10, // Espaçamento acima do botão
+        marginTop: 10, 
+        width: 250,
+        alignSelf: 'center',
     },
     botaoText: {
         color: 'black',
-        fontWeight: 'bold',
     },
     logoutButton: {
         backgroundColor: '#dc3545', // Cor vermelha para o botão de sair

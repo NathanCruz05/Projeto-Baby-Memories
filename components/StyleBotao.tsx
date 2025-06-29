@@ -16,7 +16,7 @@ const style = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	view2: {
-		backgroundColor: '#c9c8f2',
+		backgroundColor: '#95aeff',
 		alignItems: 'center',
 		textAlign: 'center',
 		borderStyle: 'solid',
