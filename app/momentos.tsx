@@ -4,17 +4,17 @@ import { useRouter } from "expo-router";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    FlatList,
-    Image,
-    Modal,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import StyleBotao from "../components/StyleBotao";
 import { authFirebase, db } from "../firebase";
@@ -169,7 +169,7 @@ export default function Momentos() {
             router.push("/AddMomento");
           }}
         />
-
+        
       {loading ? (
         <ActivityIndicator
           size="large"
@@ -319,14 +319,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    zIndex: 1, // Garante que o botão esteja acima da imagem
+    zIndex: 1, 
   },
   modalImage: {
     width: "100%",
     height: 300,
     borderRadius: 10,
     marginBottom: 15,
-    resizeMode: "contain", // Garante que a imagem se ajuste ao contêiner
+    resizeMode: "contain", 
   },
   modalTitle: {
     fontSize: 22,
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   modalDeleteButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#dc3545", // Cor vermelha para o botão de apagar no modal
+    backgroundColor: "#dc3545", 
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 25,
