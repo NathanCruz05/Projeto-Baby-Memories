@@ -10,17 +10,17 @@ import { useRouter } from "expo-router";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import {
-    Alert,
-    Image,
-    Platform,
-    Pressable,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { uploadImagem } from "../upload";
 
@@ -99,7 +99,7 @@ const AdicionarMomento: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'fff2fc' }}>
       {carregando && <Carregamento />}
       <View style={styles.header}>
         <Pressable onPress={() => router.back()}>
@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    backgroundColor: "#fff",
     paddingVertical: 20,
+    backgroundColor:"#fff2fc",
   },
   formWrapper: {
     width: 320,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 45,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     paddingHorizontal: 15,
     borderRadius: 20,
     marginBottom: 15,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 45,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 15,
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 100,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     padding: 12,
     borderRadius: 15,
     marginBottom: 15,
@@ -250,9 +250,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: "#95aeff",
+    borderRadius: 50,
+    backgroundColor: "#b5c4f7",
     gap: 4,
+    borderWidth: 2,           
+    borderColor: '#007bff',   
+    borderStyle: 'solid',
+    marginBlock:15
   },
 
   uploadText: {
@@ -262,11 +266,15 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: 45,
-    backgroundColor: "#95aeff",
+    backgroundColor: "#b5c4f7",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 30,
+    marginBottom: 40,
+    borderWidth: 2,           
+    borderColor: '#007bff',   
+    borderStyle: 'solid',
+
   },
   buttonText: {
     color: "black",

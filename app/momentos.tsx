@@ -160,17 +160,15 @@ export default function Momentos() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Página Inicial</Text>
+        <Text style={styles.headerTitle}>Álbum digital</Text>
       </View>
 
-      <View style={styles.botoes}>
         <StyleBotao
           titulo="Adicionar Momento"
           onPress={() => {
             router.push("/AddMomento");
           }}
         />
-      </View>
 
       {loading ? (
         <ActivityIndicator
@@ -190,9 +188,7 @@ export default function Momentos() {
         />
       )}
 
-      <View style={styles.botoes}>
         <StyleBotao titulo="Sair" onPress={sair} />
-      </View>
 
       <Menu />
 
@@ -272,18 +268,12 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 24,
   },
-  botoes: {
-    color: "black",
-    alignItems: "center",
-    padding: 20,
-    fontWeight: "bold",
-  },
   headerTitle: {
     color: "#fff",
     fontSize: 18,
     marginLeft: 10,
   },
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: "#fff2fc" },
   list: { paddingVertical: 20 },
   card: {
     flexDirection: "row",

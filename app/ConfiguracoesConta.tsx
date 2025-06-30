@@ -4,14 +4,14 @@ import { useRouter } from "expo-router";
 import { getAuth, signOut, updatePassword, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 export default function ConfiguracoesConta() {
@@ -181,7 +181,7 @@ export default function ConfiguracoesConta() {
               disabled={loading}
             >
               {loading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color="blue" />
               ) : (
                 <Text style={estilos.botaoText}>Sair</Text>
               )}
@@ -219,23 +219,26 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 15,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#fff2fc",
     flex: 1,
   },
   botao: {
-    backgroundColor: "#95aeff",
+    backgroundColor: "#b5c4f7",
     padding: 15,
     borderRadius: 30,
     alignItems: "center",
     marginTop: 10,
     width: 250,
     alignSelf: "center",
+    borderWidth: 2,  
+    borderColor: '#007bff',   
+    borderStyle: 'solid'
   },
   botaoText: {
     color: "black",
   },
   logoutButton: {
-    backgroundColor: "#dc3545",
+    backgroundColor: "#b5c4f7",
   },
   section: {
     marginBottom: 30,
